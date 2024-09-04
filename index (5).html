@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather Update - Iligan City</title>
+    <style>
+        body {
+            font-family: Verdana, sans-serif;
+            background-color: #c7c8c9;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            position: relative;
+        }
+        header {
+            background-color: #368BAB;
+            color: white;
+            padding: 20px;
+            width: 100%;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 8px rgba(0, 0, 0, 0.1);
+            position: relative;
+            text-shadow: 8px 8px 8px rgba(0, 0, 0, 0.3); 
+        }
+        header img {
+            position: absolute;
+            left: 465px;
+            width: 70px;
+            height: 70px;
+        }
+        main {
+            margin: 20px;
+            padding: 40px 20px;
+            background-color: rgba(255, 255, 255, 0.7); 
+            border-radius: 10px;
+            box-shadow: 0 6px 1px 8px rgba(63, 194, 255, 0.1);
+            text-align: center;
+            width: 80%;
+            max-width: 600px;
+            position: relative;
+            z-index: 1;
+        }
+
+        main:hover {
+    box-shadow: 0 0 20px 10px rgba(198, 211, 12, 0.7); 
+}
+        main img {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 20px;
+        }
+        footer {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #A5E6FE;
+            color: rgb(29, 33, 65);
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <img src="header icon.webp" alt="Weather Icon"> 
+        <h1>Weather Update - Iligan City</h1>
+    </header>
+
+    <main>
+        <img src="weather logo.png" alt="Weather Icon">
+        <h2>Iligan City</h2>
+        <p><strong>Date: </strong> August 19, 2024 <span id="currentDate"></span></p>
+        <div id="weather">
+            <p><strong>Weather Information:</strong> Sunny with occasional clouds</p>
+            <p><strong>Temperature:</strong> 29°C</p>
+            <p><strong>Humidity:</strong> 78%</p>
+        </div>
+    </main>
+
+    <footer>
+        <p>Created by JOHN MICHAEL CABUG 08-12-2024 <span id="footerDate"></span></p>
+    </footer>
+</body>
+
+<script>
+  
+    document.addEventListener('DOMContentLoaded', async function() {
+      const apiKey = '6be66d838d72496685360017241908';
+      const cityName = 'iligan city';
+      const apiEndpoint = `https://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${cityName}`;
+    
+      try {
+          const response = await fetch(apiEndpoint); // Wait for the fetch to complete
+          const weatherData = await response.json(); // Wait for the response to be parsed into JSON
+    
+    
+    
+          console.log(weatherData);
+    
+    
+          const weatherContainer = document.getElementById('weather');
+    
+    
+          const temperatureInCelsius = weatherData.current.temp_c;
+          const weatherDescription = weatherData.current.condition.text;
+          const humidityLevel = weatherData.current.humidity;
+    
+          weatherContainer.innerHTML = `
+              <h2>${cityName}</h2>
+              <p><strong>Temperature:</strong> ${temperatureInCelsius}°C</p>
+              <p><strong>Weather:</strong> ${weatherDescription}</p>
+              <p><strong>Humidity:</strong> ${humidityLevel}%</p>
+          `;
+      } catch (error) {
+          const weatherContainer = document.getElementById('weather');
+          weatherContainer.innerHTML = `<p>Unable to retrieve weather data: ${error.message}</p>`;
+      }
+    });
+    
+      </script>
+</html>
